@@ -1,19 +1,32 @@
-exports.getPosts = (req,res,next) => {
+exports.getPosts = (req, res, next) => {
     res.status(200).json({
-        posts: [{title: 'First Post',content: 'Content of first post!'}]
+        posts: [{ 
+            _id : '1',
+            title: 'First Post', 
+            content: 'Content of first post!', 
+            imageUrl: 'images/sample.png',
+            creator: {
+                name: 'Shobhit'
+            },
+            createdAt: new Date()
+        }]
     })
 }
 
-exports.createPost = (req,res,next) => {
+exports.createPost = (req, res, next) => {
     const title = req.body.title;
     const content = req.body.content;
 
     res.status(201).json({
         message: 'Post created Successfully!!',
-        post : {
-            id: new Date().toISOString(),
+        post: {
+            _id: new Date().toISOString(),
             title: title,
-            content: content
+            content: content,
+            creator: {
+                name: 'Shobhit'
+            },
+            createdAt: new Date()
         }
     })
 }
