@@ -17,7 +17,7 @@ app.use((req,res,next) => {
 app.use('/feed',feedRoutes);
 
 mongoose.connect(
-    'mongodb+srv://shobhit:shobhit@cluster0.eoc3v.mongodb.net/messages'
+    'mongodb+srv://shobhit:shobhit@cluster0.eoc3v.mongodb.net/messages?retryWrites=true&w=majority'
 ).then(result => {
     app.listen(8080);
 }).catch(err => {
