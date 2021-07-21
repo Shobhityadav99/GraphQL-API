@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 
 exports.signUp = (req, res, next) => {
     const errors = validationResult(req);
+    console.log(errors.array());
     if (!errors.isEmpty()) {
         const error = new Error("Validation failed!");
         error.statusCode = 422;
@@ -31,4 +32,12 @@ exports.signUp = (req, res, next) => {
             }
             next(err);
         });
+}
+
+exports.login = (req,res,next) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    User.findOne({email: email})
+    .then()
+    .catch()
 }

@@ -3,7 +3,7 @@ const Post = require('./post');
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const UserSchema = new Schema({
     email : {
         type: String,
         required: true,
@@ -18,7 +18,7 @@ const userSchema = new Schema({
     },
     status : {
         type: String,
-        required: "I am New vros!!",
+        value: "I am New vros!!",
     },
     posts : [{
         type: Schema.Types.ObjectId,
@@ -26,4 +26,4 @@ const userSchema = new Schema({
     }],
 });
 
-module.exports = model('User',userSchema);
+module.exports = mongoose.model('User',UserSchema);
