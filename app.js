@@ -4,6 +4,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
+const { graphqlHTTP } = require('express-graphql');
+
+const graphqlSchema = require('./graphQL/schema');
+const graphqlResolver = require('./graphQL/resolvers');
 
 const app = express();
 
@@ -45,6 +49,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/graphql',graphqlHTTP({
+  schema: graphqlSchema,
+  rootValue: graphqlResolver
+}))
 
 app.use((error, req, res, next) => {
   console.log(error);
@@ -57,10 +65,6 @@ app.use((error, req, res, next) => {
 mongoose
   .connect('mongodb+srv://shobhit:shobhit@cluster0.eoc3v.mongodb.net/messages?retryWrites=true&w=majority')
   .then(result => {
-    const server = app.listen(8080);
-     const io = require('./socket').init(server);
-     io.on('connection',socket => {
-       console.log('Connected!!')
-     })
+    app.listen(8080);
   })
   .catch(err => console.log(err));
