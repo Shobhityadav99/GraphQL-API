@@ -38,6 +38,26 @@ exports.login = (req,res,next) => {
     const email = req.body.email;
     const password = req.body.password;
     User.findOne({email: email})
-    .then()
-    .catch()
+    .then(user => {
+        if(!user){
+            const error = new Error("A user with this email could not be found");
+            error.statusCode = 401;
+            throw error;
+        }
+        loadedUser = user;
+        return bcrypt.compare(user.password,password);
+    })
+    .then(isEqual => {
+        if(!isEqual){
+            const error = new Error("Incorrect Password");
+            error.statusCode = 401;
+            throw error;
+        }
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
 }
