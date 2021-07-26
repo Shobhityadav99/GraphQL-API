@@ -9,6 +9,7 @@ const { graphqlHTTP } = require('express-graphql');
 const graphqlSchema = require('./graphQL/schema');
 const graphqlResolver = require('./graphQL/resolvers');
 const auth = require('./middleware/auth');
+const {clearImage} = require('./util/file');
 
 const app = express();
 
@@ -96,15 +97,10 @@ app.use((error, req, res, next) => {
   const data = error.data;
   res.status(status).json({ message: message, data: data });
 });
+
 mongoose
   .connect('mongodb+srv://shobhit:shobhit@cluster0.eoc3v.mongodb.net/messages?retryWrites=true&w=majority')
   .then(result => {
     app.listen(8080);
   })
   .catch(err => console.log(err));
-
-  const clearImage = filePath => {
-    filePath = path.join(__dirname, '..', filePath);
-    fs.unlink(filePath, err => console.log(err));
-  };
-  
